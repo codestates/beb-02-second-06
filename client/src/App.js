@@ -1,6 +1,9 @@
 import React from "react";
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { Link } from 'react-router-dom';
 
+import { Route, Routes } from 'react-router-dom';
+import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { Home} from "@material-ui/icons";
 
 const App = () => {
   const [value, setValue] = React.useState(0);
@@ -12,13 +15,23 @@ const App = () => {
   return (
     <>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="Main Tabs">
-          <Tab label="Home" />
-          <Tab label="Send" />
-          <Tab label="Profile" />
-          <Tab label="Login" />
-          <Tab label="Sign in" />
-        </Tabs>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="Main Tabs"
+          textColor="inherit"
+        >
+           {/* <Route element={<Tab path="/" label="Home" icon={<Home />} />}/> */}
+            <Tab path="/" label="Home" icon={<Home/>} />
+            <Tab label="Community" value="1" />
+            <Tab label="Profile" value="2"/>
+            <Tab label="Login" value="3"/>
+   
+            <Tab label="Sign up" >
+             <Link to="/signUp"></Link>
+            </Tab>
+            
+          </Tabs>
       </AppBar>
     </>
   );
