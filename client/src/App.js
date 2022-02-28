@@ -14,7 +14,7 @@ const App = () => {
     <div>
 
       <Tabbar/>
-      <SignIn/>    
+      <Signup/>    
     </div>
   );
 }
