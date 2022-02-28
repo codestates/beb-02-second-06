@@ -20,11 +20,11 @@ const Tabbar = () => {
             aria-label="Main Tabs"
             textColor="inherit"
           >
-              <Tab path="/" label="Home" icon={<Home/>} />
+              <Tab path="/"icon={<Home/>} />
               <Tab label="Community" value="1" />
               <Tab label="Profile" value="2"/>
-              <Tab label="Login" value="3"/>
-     
+              
+              <Tab label="Login" value="3" aligin/>
               <Tab label="Sign up" >
                <Link to="/Signup"></Link>
              </Tab>

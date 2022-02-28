@@ -1,92 +1,93 @@
-import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Modal from "@mui/material/Modal";
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{" "}
+      </Link>{' '}
       {new Date().getFullYear()}
-      {"."}
+      {'.'}
     </Typography>
   );
 }
 
 const theme = createTheme();
 
-export default function SignUp(e) {
-  const handleClose = () => {
-    setSuccess(false);
-    setError(false);
-    if (success) {
-      e.history.push("/login");
-    }
-  };
+export default function SignUp() {
+  const dispatch = useDispatch();
 
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
+
   // ------- 지갑 생성
-  const Web3 = require("web3");
-  var web3 = new Web3(new Web3.providers.HttpProvider());
+  const Web3 = require('web3');
+  var web3 = new Web3(new Web3.providers.HttpProvider())
   var account = web3.eth.accounts.create();
-  console.log("account: ", account);
-  console.log("-----------------------------------");
-  console.log("account.address: ", account.address);
-  console.log("account.privKey: ", account.privateKey);
+  console.log('account: ', account);
+  console.log('-----------------------------------');
+  console.log('account.address: ', account.address);
+  console.log('account.privKey: ', account.privateKey);
+
 
   // -----
 
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   // eslint-disable-next-line no-console
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
+
+  const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    //   if (password !== confirmPassword) {
-    //     setError(true);
-    // }
-
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
+    if (password !== confirmPassword) {
+        setError(true);
+    }
 
     let body = {
-      name: data.get("userName"),
-      password: data.get("password"),
-      address: data.get("address"),
-      privateKey: data.get("privateKey"),
-    };
+      name: name,
+      password: password,
+      address: address,
+      privateKey: privateKey
+    }
     console.log(body);
-  };
+    // dispatch(registerUser(body))
+    //     .then(response => {
+    //         if (response.payload.success) {
+    //             setSuccess(true);
+    //         }
+    //         else {
+    //             setError(true);
+    //         }
+    //     })
+}
 
   return (
     <ThemeProvider theme={theme}>
@@ -109,8 +110,9 @@ export default function SignUp(e) {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
             sx={{ mt: 3 }}
+            onSubmit={onSubmitHandler}
           >
             <Grid container spacing={2}>
               <Grid
@@ -126,6 +128,9 @@ export default function SignUp(e) {
                   id="userName"
                   label="userName"
                   autoFocus
+                  onChange={(event) => {
+                    setName(event.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,6 +142,9 @@ export default function SignUp(e) {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
                 />
               </Grid>
 
@@ -149,32 +157,40 @@ export default function SignUp(e) {
                   type="password"
                   id="corfirm_password"
                   autoComplete="current_password"
+                  onChange={(event) => {
+                    setConfirmPassword(event.target.value);
+                  }}
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <Typography component="h1" variant="h6">
-                  Address : {account.address}
+                  Address
                 </Typography>
                 <TextField
                   required
                   fullWidth
-                  id="address"
-                  label="Address Confirm"
-                  name="address"
+                  id="Address"
+                  label={account.address}
+                  name="Address"
+                  onChange={(event) => {
+                    setAddress(event.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Typography component="h1" variant="h6">
-                  PrivateKey : {account.privateKey}
+                  PrivateKey
                 </Typography>
                 <TextField
                   required
                   fullWidth
                   id="privateKey"
-                  label="Privatekey Confirm"
+                  label={account.privateKey}
                   name="privateKey"
-                  //   autoComplete="email"
+                  onChange={(event) => {
+                    setPrivateKey(event.target.value);
+                  }}
                 />
               </Grid>
               {/* <Grid item xs={12}>
@@ -202,19 +218,7 @@ export default function SignUp(e) {
             </Grid>
           </Box>
         </Box>
-
-        <Modal
-          open={error}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              비밀번호를 확인해 주세요
-            </Typography>
-          </Box>
-        </Modal>
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );

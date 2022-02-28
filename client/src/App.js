@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes, Link, BrowserRouter} from 'react-router-dom';
-import { AppBar, Tabs, Tab } from "@material-ui/core";
-import { Home} from "@material-ui/icons";
+import SignIn from "./components/Signin";
 import Signup from "./components/Signup";
 import Tabbar from "./components/Tabbar";
 
@@ -15,8 +14,7 @@ const App = () => {
     <div>
 
       <Tabbar/>
-     <Signup/>
-    
+      <Signup/>    
     </div>
   );
 }
